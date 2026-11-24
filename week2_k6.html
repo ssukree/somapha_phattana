@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>บทเรียนเรื่องตัวชี้ตำแหน่ง รายการ และข้อความ สำหรับชั้น ป.6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --surface: #ffffff;
+      --surface-soft: #eef3fb;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #dbeafe;
+      --secondary: #0f766e;
+      --secondary-light: #ccfbf1;
+      --accent: #d97706;
+      --accent-light: #fef3c7;
+      --danger: #dc2626;
+      --danger-light: #fee2e2;
+      --success: #16a34a;
+      --success-light: #dcfce7;
+      --text: #1e293b;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --radius: 16px;
+      --shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 17px;
+    }
+
+    code, .code-font {
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: #ffffff;
+      padding: 2.25rem 1.25rem 2rem;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(30, 58, 138, 0.2);
+    }
+
+    header h1 {
+      font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      max-width: 720px;
+      margin: 0 auto;
+      opacity: 0.95;
+      font-size: 1.05rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 1rem;
+    }
+
+    .nav-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: var(--text);
+      background: var(--surface-soft);
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    main {
+      max-width: 980px;
+      margin: 2rem auto 4rem;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.65rem;
+    }
+
+    .section-tag.teal {
+      background: var(--secondary-light);
+      color: var(--secondary);
+    }
+
+    .section-tag.amber {
+      background: var(--accent-light);
+      color: #92400e;
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      margin-bottom: 0.75rem;
+      color: #0f172a;
+    }
+
+    p + p {
+      margin-top: 0.75rem;
+    }
+
+    .analogy-box {
+      background: var(--surface-soft);
+      border-left: 5px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 12px 12px 0;
+      margin: 1rem 0;
+    }
+
+    .analogy-box.warning {
+      background: #fffbeb;
+      border-left-color: var(--accent);
+    }
+
+    .interactive-panel {
+      background: #f8fafc;
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 1.35rem;
+      margin-top: 1.25rem;
+    }
+
+    .panel-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.85rem;
+      color: var(--primary-dark);
+    }
+
+    .slots-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .slot-box {
+      min-width: 118px;
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 0.65rem 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      user-select: none;
+    }
+
+    .slot-box.char-box {
+      min-width: 74px;
+      padding: 0.6rem 0.5rem;
+    }
+
+    .slot-box:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .slot-box.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+      transform: translateY(-4px);
+    }
+
+    .slot-box.updated {
+      animation: popUpdate 0.45s ease;
+      border-color: var(--success);
+      background: var(--success-light);
+    }
+
+    .slot-box.shake {
+      animation: shakeError 0.45s ease;
+      border-color: var(--danger);
+      background: var(--danger-light);
+    }
+
+    @keyframes popUpdate {
+      0% { transform: scale(0.92); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+
+    .slot-index {
+      display: inline-block;
+      background: #1e293b;
+      color: #ffffff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.45rem;
+    }
+
+    .slot-emoji {
+      font-size: 1.85rem;
+      line-height: 1.2;
+      margin: 0.2rem 0;
+    }
+
+    .slot-value {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #0f172a;
+    }
+
+    .char-letter {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0.25rem 0;
+    }
+
+    .slot-code {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    .code-console {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      font-size: 0.96rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .code-console .kw { color: #93c5fd; }
+    .code-console .str { color: #86efac; }
+    .code-console .num { color: #fcd34d; }
+    .code-console .out { color: #f8fafc; font-weight: 700; }
+    .code-console .err { color: #fca5a5; font-weight: 700; }
+
+    .colab-box {
+      background: #fffdf5;
+      border: 1px solid #fde68a;
+      border-radius: 14px;
+      padding: 1.2rem;
+      margin-top: 1.25rem;
+    }
+
+    .colab-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .colab-title {
+      font-weight: 700;
+      color: #92400e;
+      font-size: 1.02rem;
+    }
+
+    .colab-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-copy {
+      background: #f59e0b;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.4rem 0.9rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-copy:hover {
+      background: #d97706;
+    }
+
+    .btn-copy.copied {
+      background: var(--success);
+    }
+
+    .btn-colab-link {
+      text-decoration: none;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 0.4rem 0.85rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .btn-colab-link:hover {
+      background: #fde68a;
+    }
+
+    .colab-code {
+      background: #1e293b;
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 0.95rem 1.1rem;
+      font-size: 0.94rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .colab-hint {
+      margin-top: 0.65rem;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    select, button {
+      font-family: inherit;
+      font-size: 0.98rem;
+      border-radius: 10px;
+      padding: 0.55rem 1rem;
+    }
+
+    select {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-teal {
+      background: var(--secondary);
+      color: #ffffff;
+    }
+
+    .btn-teal:hover {
+      background: #115e59;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .btn-soft {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+
+    .btn-soft:hover {
+      background: #cbd5e1;
+    }
+
+    .feedback-banner {
+      margin-top: 1rem;
+      padding: 0.9rem 1.1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .feedback-banner.show {
+      display: block;
+    }
+
+    .feedback-banner.ok {
+      background: var(--success-light);
+      color: #166534;
+      border: 1px solid #86efac;
+    }
+
+    .feedback-banner.bad {
+      background: var(--danger-light);
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    th, td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface-soft);
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge-yes {
+      display: inline-block;
+      background: var(--success-light);
+      color: #166534;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .badge-no {
+      display: inline-block;
+      background: var(--danger-light);
+      color: #991b1b;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    /* Game Section */
+    .game-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .score-pills {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.35s ease;
+    }
+
+    .game-question {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+      color: #0f172a;
+    }
+
+    .game-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .option-btn {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--surface-soft);
+    }
+
+    .option-btn.correct {
+      border-color: var(--success);
+      background: var(--success-light);
+      color: #166534;
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger);
+      background: var(--danger-light);
+      color: #991b1b;
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .game-summary {
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .game-summary .big-score {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0.5rem 0;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding: 1.5rem 1rem 2.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 1.2rem;
+      }
+      .slot-box {
+        min-width: 96px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>ตัวชี้ตำแหน่ง รายการ และข้อความ</h1>
+    <p>สื่อการสอนวิทยาการคำนวณระดับชั้นประถมศึกษาปีที่ 6 เพื่อฝึกการอ่านและการแก้ไขข้อมูลตามตำแหน่ง</p>
+  </header>
+
+  <nav aria-label="เมนูหลัก">
+    <div class="nav-inner">
+      <a class="nav-btn" href="#sec-index">1. รู้จักตัวชี้ตำแหน่ง</a>
+      <a class="nav-btn" href="#sec-edit-list">2. การแก้ค่าในรายการ</a>
+      <a class="nav-btn" href="#sec-string">3. ข้อความแก้ไม่ได้</a>
+      <a class="nav-btn" href="#sec-compare">4. สรุปความแตกต่าง</a>
+      <a class="nav-btn" href="#sec-game">5. เกมฝึกทักษะ</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Section 1 -->
+    <section id="sec-index" class="card">
+      <span class="section-tag">บทที่ 1</span>
+      <h2>รู้จักตัวชี้ตำแหน่ง (Index) และรายการ (List)</h2>
+      <p>
+        ในการเขียนโปรแกรมด้วยภาษาไพทอน (Python) เรามักเก็บข้อมูลหลายชิ้นไว้ด้วยกันในกล่องเรียงแถวที่เรียกว่า <strong>รายการ</strong> โดยใช้เครื่องหมายก้ามปู <code>[...]</code> ครอบข้อมูลไว้
+      </p>
+      <div class="analogy-box">
+        <strong>เปรียบเทียบให้เห็นภาพ</strong> ลองจินตนาการว่ามีตู้ล็อกเกอร์วางเรียงกัน 4 ช่อง โดยแต่ละช่องมีหมายเลขป้ายติดอยู่ข้างหน้า เราเรียกป้ายหมายเลขช่องนี้ว่า <strong>ตัวชี้ตำแหน่ง</strong> ซึ่งในภาษาคอมพิวเตอร์จะเริ่มนับช่องแรกจากเลข <strong>0</strong> เสมอ ไม่ใช่เลข 1
+      </div>
+
+      <div class="interactive-panel">
+        <div class="panel-title">ทดลองคลิกกล่องผลไม้ด้านล่าง เพื่อดูการแสดงค่าตามตัวชี้ตำแหน่ง</div>
+        <div id="list-read-slots" class="slots-row"></div>
+        <div class="controls-row">
+          <button class="btn btn-soft" onclick="selectReadIndex(0)">ดูตำแหน่ง 0</button>
+          <button class="btn btn-soft" onclick="selectReadIndex(1)">ดูตำแหน่ง 1</button>
+          <button class="btn btn-soft" onclick="selectReadIndex(2)">ดูตำแหน่ง 2</button>
+          <button class="btn btn-soft" onclick="selectReadIndex(3)">ดูตำแหน่ง 3</button>
+        </div>
+        <div id="read-console" class="code-console code-font"></div>
+      </div>
+
+      <div class="colab-box">
+        <div class="colab-header">
+          <div class="colab-title">ช่วงลองเล่น ลองดู นำโค้ดไปทดสอบในสมุดบันทึกกูเกิลโคแล็บ (Google Colab)</div>
+          <div class="colab-actions">
+            <a class="btn-colab-link" href="https://colab.research.google.com/" target="_blank" rel="noopener">เปิดโคแล็บ</a>
+            <button class="btn-copy" onclick="copyColabCode('colab-code-1', this)">คัดลอกโค้ด</button>
+          </div>
+        </div>
+        <pre id="colab-code-1" class="colab-code code-font">fruits = ["แอปเปิล", "กล้วย", "ส้ม", "แตงโม"]
+print("ตำแหน่งที่ 0 คือ", fruits[0])
+print("ตำแหน่งที่ 2 คือ", fruits[2])</pre>
+        <div class="colab-hint">คำแนะนำ ลองเปลี่ยนตัวเลขในวงเล็บก้ามปูจาก 2 เป็น 1 หรือ 3 แล้วกดปุ่มรันเพื่อสังเกตผลลัพธ์</div>
+      </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section id="sec-edit-list" class="card">
+      <span class="section-tag teal">บทที่ 2</span>
+      <h2>การแสดงค่าและการแก้ไขค่าในรายการ</h2>
+      <p>
+        จุดเด่นของรายการคือเราสามารถเปิดดูข้อมูลช่องใดก็ได้ และยังสามารถนำข้อมูลใหม่เข้าไปแทนที่ข้อมูลเดิมในช่องที่ต้องการได้ ข้อมูลประเภทนี้จึงเรียกว่าข้อมูลที่แก้ไขได้
+      </p>
+      <p>
+        วิธีการแก้ไขคือระบุชื่อรายการ ตามด้วยตัวชี้ตำแหน่งในเครื่องหมายก้ามปู แล้วใช้เครื่องหมายเท่ากับเพื่อกำหนดค่าใหม่
+      </p>
+
+      <div class="interactive-panel">
+        <div class="panel-title">ทดลองเปลี่ยนผลไม้ในรายการด้วยตนเอง</div>
+        <div id="list-edit-slots" class="slots-row"></div>
+        <div class="controls-row">
+          <label for="edit-index-select">เลือกตำแหน่ง</label>
+          <select id="edit-index-select">
+            <option value="0">ตำแหน่ง 0</option>
+            <option value="1" selected>ตำแหน่ง 1</option>
+            <option value="2">ตำแหน่ง 2</option>
+            <option value="3">ตำแหน่ง 3</option>
+          </select>
+
+          <label for="edit-value-select">เปลี่ยนเป็น</label>
+          <select id="edit-value-select">
+            <option value="มะม่วง|🥭">🥭 มะม่วง</option>
+            <option value="สตรอว์เบอร์รี|🍓">🍓 สตรอว์เบอร์รี</option>
+            <option value="องุ่น|🍇">🍇 องุ่น</option>
+            <option value="สับปะรด|🍍">🍍 สับปะรด</option>
+          </select>
+
+          <button class="btn btn-teal" onclick="applyListEdit()">แก้ไขค่า</button>
+          <button class="btn btn-soft" onclick="resetListEdit()">เริ่มใหม่</button>
+        </div>
+        <div id="edit-console" class="code-console code-font"></div>
+        <div id="edit-feedback" class="feedback-banner"></div>
+      </div>
+
+      <div class="colab-box">
+        <div class="colab-header">
+          <div class="colab-title">ช่วงลองเล่น ลองดู ทดลองแก้ไขรายการในโคแล็บ</div>
+          <div class="colab-actions">
+            <button class="btn-copy" onclick="copyColabCode('colab-code-2', this)">คัดลอกโค้ด</button>
+          </div>
+        </div>
+        <pre id="colab-code-2" class="colab-code code-font">fruits = ["แอปเปิล", "กล้วย", "ส้ม", "แตงโม"]
+print("ก่อนแก้ไข", fruits)
+
+fruits[1] = "มะม่วง"
+print("หลังแก้ไข", fruits)</pre>
+        <div class="colab-hint">คำแนะนำ ลองเปลี่ยนตำแหน่งที่แก้ไขเป็น 0 หรือ 3 ด้วยชื่อผลไม้อื่นตามต้องการ</div>
+      </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section id="sec-string" class="card">
+      <span class="section-tag amber">บทที่ 3</span>
+      <h2>ข้อความ (String) อ่านได้ แต่แก้ทีละตัวไม่ได้</h2>
+      <p>
+        ข้อมูลอีกชนิดหนึ่งที่พบบ่อยคือ <strong>ข้อความ</strong> ซึ่งเขียนอยู่ในเครื่องหมายคำพูด เช่น <code>"PYTHON"</code> ข้อความมีตัวชี้ตำแหน่งเริ่มจาก <strong>0</strong> เหมือนกับรายการ เราจึงสามารถเลือกแสดงตัวอักษรทีละตัวได้
+      </p>
+      <div class="analogy-box warning">
+        <strong>ข้อควรระวัง</strong> ข้อความเปรียบเหมือนคำที่สลักลงบนป้ายหินแล้ว เราสามารถชี้ดูตัวอักษรแต่ละตัวได้ แต่ <strong>ไม่สามารถแก้ไขตัวอักษรเพียงตัวเดียวข้างในได้</strong> หากฝืนสั่งแก้ไข โปรแกรมจะแจ้งข้อผิดพลาดชนิดข้อมูล (TypeError) ทันที
+      </div>
+
+      <div class="interactive-panel">
+        <div class="panel-title">ทดลองคลิกตัวอักษรเพื่ออ่านค่า และทดลองสั่งแก้ไขข้อความ</div>
+        <div id="string-slots" class="slots-row"></div>
+        <div class="controls-row">
+          <label for="str-index-select">ตำแหน่ง</label>
+          <select id="str-index-select">
+            <option value="0">ตำแหน่ง 0</option>
+            <option value="1">ตำแหน่ง 1</option>
+            <option value="2">ตำแหน่ง 2</option>
+            <option value="3">ตำแหน่ง 3</option>
+            <option value="4">ตำแหน่ง 4</option>
+            <option value="5">ตำแหน่ง 5</option>
+          </select>
+
+          <label for="str-char-select">ลองเปลี่ยนเป็นตัวอักษร</label>
+          <select id="str-char-select">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="J">J</option>
+            <option value="Z">Z</option>
+          </select>
+
+          <button class="btn btn-danger" onclick="tryEditString()">ลองแก้ไขข้อความ</button>
+        </div>
+        <div id="string-console" class="code-console code-font"></div>
+        <div id="string-feedback" class="feedback-banner"></div>
+      </div>
+
+      <div class="colab-box">
+        <div class="colab-header">
+          <div class="colab-title">ช่วงลองเล่น ลองดู ทดสอบอ่านและลองแก้ไขข้อความในโคแล็บ</div>
+          <div class="colab-actions">
+            <button class="btn-copy" onclick="copyColabCode('colab-code-3', this)">คัดลอกโค้ด</button>
+          </div>
+        </div>
+        <pre id="colab-code-3" class="colab-code code-font">word = "PYTHON"
+print("ตัวอักษรตำแหน่ง 0 คือ", word[0])
+print("ตัวอักษรตำแหน่ง 3 คือ", word[3])
+
+# ลองลบเครื่องหมาย # ด้านล่างออกแล้วรันเพื่อดูข้อผิดพลาด
+# word[0] = "J"</pre>
+        <div class="colab-hint">คำแนะนำ เมื่อรันครั้งแรกจะได้ผลลัพธ์ปกติ จากนั้นให้นักเรียนลบเครื่องหมาย # หน้าบรรทัดสุดท้ายออกแล้วรันอีกครั้งเพื่อดูการแจ้งเตือนของระบบ</div>
+      </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section id="sec-compare" class="card">
+      <span class="section-tag">บทที่ 4</span>
+      <h2>สรุปความแตกต่างระหว่างรายการและข้อความ</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>คุณสมบัติ</th>
+            <th>รายการ</th>
+            <th>ข้อความ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>สัญลักษณ์ที่ใช้เขียน</td>
+            <td><code>["แอปเปิล", "กล้วย"]</code></td>
+            <td><code>"PYTHON"</code></td>
+          </tr>
+          <tr>
+            <td>ตัวชี้ตำแหน่งเริ่มต้นที่เลขใด</td>
+            <td>เลข 0</td>
+            <td>เลข 0</td>
+          </tr>
+          <tr>
+            <td>อ่านค่าทีละช่องด้วยตัวชี้ตำแหน่งได้หรือไม่</td>
+            <td><span class="badge-yes">ได้</span></td>
+            <td><span class="badge-yes">ได้</span></td>
+          </tr>
+          <tr>
+            <td>แก้ไขค่าทีละช่องด้วยตัวชี้ตำแหน่งได้หรือไม่</td>
+            <td><span class="badge-yes">ได้</span></td>
+            <td><span class="badge-no">ไม่ได้</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section 5: Interactive Game -->
+    <section id="sec-game" class="card">
+      <span class="section-tag teal">กิจกรรมฝึกทักษะ</span>
+      <h2>เกมภารกิจพิชิตตัวชี้ตำแหน่ง</h2>
+      <p>ตอบคำถามให้ครบทั้ง 8 ข้อ เพื่อทดสอบความเข้าใจเรื่องตัวชี้ตำแหน่ง การแก้ไขรายการ และข้อจำกัดของข้อความ</p>
+
+      <div class="interactive-panel" id="game-area">
+        <div class="game-header">
+          <div class="score-pills">
+            <span class="pill" id="q-counter">ข้อที่ 1 จาก 8</span>
+            <span class="pill" id="score-pill">คะแนน 0</span>
+            <span class="pill" id="streak-pill">ตอบถูกต่อเนื่อง 0</span>
+          </div>
+          <button class="btn btn-soft" onclick="startGame()">เริ่มเกมใหม่</button>
+        </div>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="game-progress"></div>
+        </div>
+
+        <div id="game-body"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    สื่อการสอนวิทยาการคำนวณระดับชั้นประถมศึกษาปีที่ 6 เรื่องตัวชี้ตำแหน่ง รายการ และข้อความ
+  </footer>
+
+  <script>
+    // ---------- Section 1: Read List ----------
+    const baseFruits = [
+      { name: "แอปเปิล", emoji: "🍎" },
+      { name: "กล้วย", emoji: "🍌" },
+      { name: "ส้ม", emoji: "🍊" },
+      { name: "แตงโม", emoji: "🍉" }
+    ];
+    let selectedReadIdx = 0;
+
+    function renderReadList() {
+      const container = document.getElementById("list-read-slots");
+      container.innerHTML = "";
+      baseFruits.forEach((item, idx) => {
+        const box = document.createElement("div");
+        box.className = "slot-box" + (idx === selectedReadIdx ? " active" : "");
+        box.onclick = () => selectReadIndex(idx);
+        box.innerHTML = `
+          <div class="slot-index">ตำแหน่ง ${idx}</div>
+          <div class="slot-emoji">${item.emoji}</div>
+          <div class="slot-value">"${item.name}"</div>
+          <div class="slot-code code-font">fruits[${idx}]</div>
+        `;
+        container.appendChild(box);
+      });
+
+      const current = baseFruits[selectedReadIdx];
+      document.getElementById("read-console").innerHTML =
+        `<div><span class="kw">fruits</span> = [<span class="str">"แอปเปิล"</span>, <span class="str">"กล้วย"</span>, <span class="str">"ส้ม"</span>, <span class="str">"แตงโม"</span>]</div>` +
+        `<div><span class="kw">print</span>(fruits[<span class="num">${selectedReadIdx}</span>])</div>` +
+        `<div class="out">ผลลัพธ์ที่ได้คือ "${current.name}" ${current.emoji}</div>`;
+    }
+
+    function selectReadIndex(idx) {
+      selectedReadIdx = idx;
+      renderReadList();
+    }
+
+    // ---------- Section 2: Edit List ----------
+    let editableFruits = baseFruits.map(item => ({ ...item }));
+    let lastEditedIdx = -1;
+    let lastEditCode = `fruits = ["แอปเปิล", "กล้วย", "ส้ม", "แตงโม"]`;
+
+    function renderEditList() {
+      const container = document.getElementById("list-edit-slots");
+      container.innerHTML = "";
+      editableFruits.forEach((item, idx) => {
+        const box = document.createElement("div");
+        box.className = "slot-box" + (idx === lastEditedIdx ? " updated" : "");
+        box.innerHTML = `
+          <div class="slot-index">ตำแหน่ง ${idx}</div>
+          <div class="slot-emoji">${item.emoji}</div>
+          <div class="slot-value">"${item.name}"</div>
+          <div class="slot-code code-font">fruits[${idx}]</div>
+        `;
+        container.appendChild(box);
+      });
+
+      const listLiteral = editableFruits.map(f => `<span class="str">"${f.name}"</span>`).join(", ");
+      document.getElementById("edit-console").innerHTML =
+        `<div>${lastEditCode}</div>` +
+        `<div><span class="kw">print</span>(fruits)</div>` +
+        `<div class="out">ผลลัพธ์ [${listLiteral}]</div>`;
+    }
+
+    function applyListEdit() {
+      const idx = parseInt(document.getElementById("edit-index-select").value, 10);
+      const raw = document.getElementById("edit-value-select").value.split("|");
+      const newName = raw[0];
+      const newEmoji = raw[1];
+      const oldName = editableFruits[idx].name;
+
+      editableFruits[idx] = { name: newName, emoji: newEmoji };
+      lastEditedIdx = idx;
+      lastEditCode = `<span class="kw">fruits</span>[<span class="num">${idx}</span>] = <span class="str">"${newName}"</span>`;
+      renderEditList();
+
+      const fb = document.getElementById("edit-feedback");
+      fb.className = "feedback-banner show ok";
+      fb.textContent = `แก้ไขสำเร็จ ตำแหน่ง ${idx} เปลี่ยนจาก "${oldName}" เป็น "${newName}" เรียบร้อยแล้ว`;
+    }
+
+    function resetListEdit() {
+      editableFruits = baseFruits.map(item => ({ ...item }));
+      lastEditedIdx = -1;
+      lastEditCode = `<span class="kw">fruits</span> = [<span class="str">"แอปเปิล"</span>, <span class="str">"กล้วย"</span>, <span class="str">"ส้ม"</span>, <span class="str">"แตงโม"</span>]`;
+      renderEditList();
+      const fb = document.getElementById("edit-feedback");
+      fb.className = "feedback-banner";
+      fb.textContent = "";
+    }
+
+    // ---------- Section 3: String (Immutable) ----------
+    const wordChars = ["P", "Y", "T", "H", "O", "N"];
+    let selectedStrIdx = 0;
+    let shakeStrIdx = -1;
+
+    function renderStringSlots() {
+      const container = document.getElementById("string-slots");
+      container.innerHTML = "";
+      wordChars.forEach((ch, idx) => {
+        const box = document.createElement("div");
+        let cls = "slot-box char-box";
+        if (idx === selectedStrIdx && shakeStrIdx !== idx) cls += " active";
+        if (idx === shakeStrIdx) cls += " shake";
+        box.className = cls;
+        box.onclick = () => selectStringIndex(idx);
+        box.innerHTML = `
+          <div class="slot-index">${idx}</div>
+          <div class="char-letter code-font">'${ch}'</div>
+          <div class="slot-code code-font">word[${idx}]</div>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    function selectStringIndex(idx) {
+      selectedStrIdx = idx;
+      shakeStrIdx = -1;
+      document.getElementById("str-index-select").value = String(idx);
+      renderStringSlots();
+      document.getElementById("string-console").innerHTML =
+        `<div><span class="kw">word</span> = <span class="str">"PYTHON"</span></div>` +
+        `<div><span class="kw">print</span>(word[<span class="num">${idx}</span>])</div>` +
+        `<div class="out">ผลลัพธ์ที่ได้คือ '${wordChars[idx]}'</div>`;
+
+      const fb = document.getElementById("string-feedback");
+      fb.className = "feedback-banner show ok";
+      fb.textContent = `การอ่านค่าทำได้ปกติ ตัวอักษรที่ตำแหน่ง ${idx} คือ '${wordChars[idx]}'`;
+    }
+
+    function tryEditString() {
+      const idx = parseInt(document.getElementById("str-index-select").value, 10);
+      const ch = document.getElementById("str-char-select").value;
+      selectedStrIdx = idx;
+      shakeStrIdx = idx;
+      renderStringSlots();
+
+      document.getElementById("string-console").innerHTML =
+        `<div><span class="kw">word</span> = <span class="str">"PYTHON"</span></div>` +
+        `<div><span class="kw">word</span>[<span class="num">${idx}</span>] = <span class="str">"${ch}"</span></div>` +
+        `<div class="err">TypeError 'str' object does not support item assignment</div>`;
+
+      const fb = document.getElementById("string-feedback");
+      fb.className = "feedback-banner show bad";
+      fb.textContent = `แก้ไขไม่ได้ ข้อความไม่อนุญาตให้เปลี่ยนตัวอักษรที่ตำแหน่ง ${idx} เพียงตัวเดียว ต้องสร้างข้อความใหม่ทั้งคำ`;
+    }
+
+    // ---------- Section 5: Interactive Game ----------
+    const questions = [
+      {
+        prompt: "กำหนดให้ animals = [\"แมว\", \"สุนัข\", \"กระต่าย\", \"นก\"] คำสั่ง animals[0] จะได้ผลลัพธ์ใด",
+        code: "animals = [\"แมว\", \"สุนัข\", \"กระต่าย\", \"นก\"]\nprint(animals[0])",
+        options: ["\"แมว\"", "\"สุนัข\"", "\"กระต่าย\"", "\"นก\""],
+        answer: 0,
+        explain: "ตัวชี้ตำแหน่งเริ่มต้นที่เลข 0 เสมอ ดังนั้น animals[0] คือข้อมูลตัวแรกคือ \"แมว\""
+      },
+      {
+        prompt: "กำหนดให้ colors = [\"แดง\", \"ฟ้า\", \"เหลือง\", \"เขียว\"] หากต้องการแสดงคำว่า \"เหลือง\" ต้องใช้ตำแหน่งใด",
+        code: "colors = [\"แดง\", \"ฟ้า\", \"เหลือง\", \"เขียว\"]\nprint(colors[ ? ])",
+        options: ["ตำแหน่ง 0", "ตำแหน่ง 1", "ตำแหน่ง 2", "ตำแหน่ง 3"],
+        answer: 2,
+        explain: "นับจากซ้ายเริ่มที่ 0 จะได้ \"แดง\" อยู่ตำแหน่ง 0 \"ฟ้า\" อยู่ตำแหน่ง 1 และ \"เหลือง\" อยู่ตำแหน่ง 2"
+      },
+      {
+        prompt: "จากข้อความ word = \"SCHOOL\" ตัวอักษรใดอยู่ที่ตำแหน่ง 3",
+        code: "word = \"SCHOOL\"\nprint(word[3])",
+        options: ["'S'", "'C'", "'H'", "'O'"],
+        answer: 3,
+        explain: "S=0 C=1 H=2 O=3 ดังนั้น word[3] คือตัวอักษร 'O'"
+      },
+      {
+        prompt: "กำหนดให้ snacks = [\"คุกกี้\", \"โดนัท\", \"เค้ก\"] เมื่อสั่ง snacks[1] = \"พาย\" ค่าในรายการจะเป็นอย่างไร",
+        code: "snacks = [\"คุกกี้\", \"โดนัท\", \"เค้ก\"]\nsnacks[1] = \"พาย\"\nprint(snacks)",
+        options: [
+          "[\"พาย\", \"โดนัท\", \"เค้ก\"]",
+          "[\"คุกกี้\", \"พาย\", \"เค้ก\"]",
+          "[\"คุกกี้\", \"โดนัท\", \"พาย\"]",
+          "เกิดข้อผิดพลาดแก้ไขไม่ได้"
+        ],
+        answer: 1,
+        explain: "รายการสามารถแก้ไขค่าได้ ตำแหน่ง 1 เดิมคือ \"โดนัท\" จึงถูกเปลี่ยนเป็น \"พาย\""
+      },
+      {
+        prompt: "กำหนดให้ name = \"CAT\" เมื่อสั่ง name[0] = \"B\" จะเกิดผลลัพธ์ใด",
+        code: "name = \"CAT\"\nname[0] = \"B\"",
+        options: [
+          "ได้คำว่า \"BAT\"",
+          "ได้คำว่า \"CAB\"",
+          "เกิดข้อผิดพลาด เพราะข้อความแก้ทีละตัวไม่ได้",
+          "ได้ค่าว่างเปล่า"
+        ],
+        answer: 2,
+        explain: "ข้อความเป็นข้อมูลที่ไม่สามารถแก้ไขทีละตัวอักษรได้ จึงเกิดข้อผิดพลาดชนิดข้อมูล"
+      },
+      {
+        prompt: "กำหนดให้ nums = [10, 20, 30, 40] เมื่อสั่ง nums[3] = 99 แล้วพิมพ์ nums[3] จะได้ค่าใด",
+        code: "nums = [10, 20, 30, 40]\nnums[3] = 99\nprint(nums[3])",
+        options: ["30", "40", "99", "10"],
+        answer: 2,
+        explain: "ตำแหน่ง 3 เดิมมีค่า 40 ถูกแก้ไขเป็น 99 แล้ว เมื่อแสดงค่า nums[3] จึงได้ 99"
+      },
+      {
+        prompt: "ข้อใดกล่าวถูกต้องเกี่ยวกับการอ่านและการแก้ไขข้อมูล",
+        code: "รายการ ใช้ [...]\nข้อความ ใช้ \"...\"",
+        options: [
+          "ทั้งรายการและข้อความแก้ไขทีละตัวได้",
+          "รายการแก้ไขทีละช่องได้ แต่ข้อความแก้ไขทีละตัวไม่ได้",
+          "ข้อความแก้ไขทีละตัวได้ แต่รายการแก้ไขไม่ได้",
+          "ทั้งรายการและข้อความอ่านค่าด้วยตัวชี้ตำแหน่งไม่ได้"
+        ],
+        answer: 1,
+        explain: "ทั้งสองชนิดอ่านค่าด้วยตัวชี้ตำแหน่งได้ แต่มีเพียงรายการที่แก้ไขค่าทีละช่องได้"
+      },
+      {
+        prompt: "กำหนดให้ city = \"BANGKOK\" คำสั่ง city[6] จะแสดงตัวอักษรใด",
+        code: "city = \"BANGKOK\"\nprint(city[6])",
+        options: ["'B'", "'G'", "'O'", "'K'"],
+        answer: 3,
+        explain: "B=0 A=1 N=2 G=3 K=4 O=5 K=6 ดังนั้นตำแหน่ง 6 คือตัวอักษร 'K'"
+      }
+    ];
+
+    let qIndex = 0;
+    let score = 0;
+    let streak = 0;
+    let answered = false;
+
+    function startGame() {
+      qIndex = 0;
+      score = 0;
+      streak = 0;
+      answered = false;
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      document.getElementById("q-counter").textContent = `ข้อที่ ${Math.min(qIndex + 1, questions.length)} จาก ${questions.length}`;
+      document.getElementById("score-pill").textContent = `คะแนน ${score}`;
+      document.getElementById("streak-pill").textContent = `ตอบถูกต่อเนื่อง ${streak}`;
+      document.getElementById("game-progress").style.width = `${(qIndex / questions.length) * 100}%`;
+
+      const body = document.getElementById("game-body");
+
+      if (qIndex >= questions.length) {
+        document.getElementById("q-counter").textContent = "จบเกมแล้ว";
+        document.getElementById("game-progress").style.width = "100%";
+        let msg = "ทำได้ดีมาก ลองทบทวนบทเรียนอีกครั้งแล้วมาเล่นใหม่ได้";
+        if (score === questions.length) {
+          msg = "ยอดเยี่ยม ตอบถูกครบทุกข้อ แสดงว่าเข้าใจเรื่องตัวชี้ตำแหน่งอย่างชัดเจน";
+        } else if (score >= 6) {
+          msg = "เก่งมาก เข้าใจหลักการส่วนใหญ่แล้ว ลองทบทวนข้อที่พลาดเพิ่มเติม";
+        }
+        body.innerHTML = `
+          <div class="game-summary">
+            <h3>สรุปผลคะแนน</h3>
+            <div class="big-score">${score} / ${questions.length}</div>
+            <p>${msg}</p>
+            <div class="controls-row">
+              <button class="btn btn-primary" onclick="startGame()">เล่นอีกครั้ง</button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const q = questions[qIndex];
+      const optionsHtml = q.options.map((opt, idx) =>
+        `<button class="option-btn code-font" id="opt-${idx}" onclick="checkAnswer(${idx})">${opt}</button>`
+      ).join("");
+
+      body.innerHTML = `
+        <div class="game-question">${q.prompt}</div>
+        <pre class="code-console code-font" style="margin-top:0;">${q.code}</pre>
+        <div class="game-options">${optionsHtml}</div>
+        <div id="game-feedback" class="feedback-banner"></div>
+        <div class="controls-row" id="next-btn-wrap" style="display:none;">
+          <button class="btn btn-primary" onclick="nextQuestion()">ข้อถัดไป</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(chosen) {
+      if (answered) return;
+      answered = true;
+      const q = questions[qIndex];
+      const fb = document.getElementById("game-feedback");
+
+      q.options.forEach((_, idx) => {
+        const btn = document.getElementById(`opt-${idx}`);
+        btn.disabled = true;
+        if (idx === q.answer) btn.classList.add("correct");
+        else if (idx === chosen) btn.classList.add("wrong");
+      });
+
+      if (chosen === q.answer) {
+        score += 1;
+        streak += 1;
+        fb.className = "feedback-banner show ok";
+        fb.textContent = `ถูกต้อง ${q.explain}`;
+      } else {
+        streak = 0;
+        fb.className = "feedback-banner show bad";
+        fb.textContent = `ยังไม่ถูกต้อง ${q.explain}`;
+      }
+
+      document.getElementById("score-pill").textContent = `คะแนน ${score}`;
+      document.getElementById("streak-pill").textContent = `ตอบถูกต่อเนื่อง ${streak}`;
+      document.getElementById("next-btn-wrap").style.display = "flex";
+    }
+
+    function nextQuestion() {
+      qIndex += 1;
+      answered = false;
+      renderQuestion();
+    }
+
+    // ---------- Copy Code Helper ----------
+    function copyColabCode(elementId, btn) {
+      const codeText = document.getElementById(elementId).textContent;
+      const onSuccess = () => {
+        const original = btn.textContent;
+        btn.textContent = "คัดลอกแล้ว ✓";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove("copied");
+        }, 1800);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(codeText).then(onSuccess).catch(() => fallbackCopy(codeText, onSuccess));
+      } else {
+        fallbackCopy(codeText, onSuccess);
+      }
+    }
+
+    function fallbackCopy(text, onSuccess) {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      try {
+        document.execCommand("copy");
+        onSuccess();
+      } finally {
+        document.body.removeChild(area);
+      }
+    }
+
+    // Initialize all interactive sections
+    renderReadList();
+    renderEditList();
+    selectStringIndex(0);
+    startGame();
+  </script>
+</body>
+</html>
