@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>บทเรียนตัวชี้ตำแหน่ง รายการ ข้อความ เงื่อนไข และการวนซ้ำ (ม.1 และ ม.2)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-soft: #eef2ff;
+      --primary: #3730a3;
+      --primary-hover: #312e81;
+      --primary-light: #e0e7ff;
+      --teal: #0f766e;
+      --teal-light: #ccfbf1;
+      --amber: #b45309;
+      --amber-light: #fef3c7;
+      --danger: #dc2626;
+      --danger-light: #fee2e2;
+      --success: #15803d;
+      --success-light: #dcfce7;
+      --text: #1e293b;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --radius: 16px;
+      --shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 17px;
+    }
+
+    code, .code-font {
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e1b4b 0%, #3730a3 100%);
+      color: #ffffff;
+      padding: 2.25rem 1.25rem 2rem;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(30, 27, 75, 0.22);
+    }
+
+    header h1 {
+      font-size: clamp(1.45rem, 3vw, 2.15rem);
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+    }
+
+    header p {
+      max-width: 760px;
+      margin: 0 auto;
+      opacity: 0.94;
+      font-size: 1.04rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.65rem 1rem;
+    }
+
+    .nav-inner {
+      max-width: 1020px;
+      margin: 0 auto;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      color: var(--text);
+      background: var(--surface-soft);
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.94rem;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    main {
+      max-width: 1020px;
+      margin: 2rem auto 4rem;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      margin-bottom: 0.65rem;
+    }
+
+    .section-tag.teal {
+      background: var(--teal-light);
+      color: var(--teal);
+    }
+
+    .section-tag.amber {
+      background: var(--amber-light);
+      color: var(--amber);
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      margin-bottom: 0.75rem;
+      color: #0f172a;
+    }
+
+    p + p {
+      margin-top: 0.75rem;
+    }
+
+    .info-box {
+      background: var(--surface-soft);
+      border-left: 5px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 12px 12px 0;
+      margin: 1rem 0;
+    }
+
+    .info-box.warning {
+      background: #fffbeb;
+      border-left-color: #d97706;
+    }
+
+    .interactive-panel {
+      background: #f8fafc;
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 1.35rem;
+      margin-top: 1.25rem;
+    }
+
+    .panel-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.85rem;
+      color: var(--primary);
+    }
+
+    .slots-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .slot-box {
+      min-width: 112px;
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      padding: 0.65rem 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      user-select: none;
+    }
+
+    .slot-box.char-box {
+      min-width: 80px;
+    }
+
+    .slot-box:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .slot-box.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 0 0 4px rgba(55, 48, 163, 0.16);
+      transform: translateY(-3px);
+    }
+
+    .slot-box.updated {
+      animation: popUpdate 0.45s ease;
+      border-color: var(--success);
+      background: var(--success-light);
+    }
+
+    .slot-box.shake {
+      animation: shakeError 0.45s ease;
+      border-color: var(--danger);
+      background: var(--danger-light);
+    }
+
+    @keyframes popUpdate {
+      0% { transform: scale(0.92); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes shakeError {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+
+    .idx-pos {
+      display: inline-block;
+      background: #1e293b;
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.12rem 0.55rem;
+      border-radius: 999px;
+      margin-bottom: 0.35rem;
+    }
+
+    .idx-neg {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.12rem 0.55rem;
+      border-radius: 999px;
+      margin-top: 0.35rem;
+    }
+
+    .slot-val {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0.2rem 0;
+    }
+
+    .slot-code {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .code-console {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      font-size: 0.94rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      margin-top: 1rem;
+    }
+
+    .code-console .kw { color: #93c5fd; }
+    .code-console .str { color: #86efac; }
+    .code-console .num { color: #fcd34d; }
+    .code-console .out { color: #f8fafc; font-weight: 700; }
+    .code-console .err { color: #fca5a5; font-weight: 700; }
+    .code-console .cmt { color: #94a3b8; }
+
+    .controls-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    select, button {
+      font-family: inherit;
+      font-size: 0.96rem;
+      border-radius: 10px;
+      padding: 0.5rem 0.95rem;
+    }
+
+    select {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--primary); color: #ffffff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-teal { background: var(--teal); color: #ffffff; }
+    .btn-teal:hover { background: #115e59; }
+    .btn-danger { background: var(--danger); color: #ffffff; }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-soft { background: #e2e8f0; color: var(--text); }
+    .btn-soft:hover { background: #cbd5e1; }
+
+    .feedback-banner {
+      margin-top: 1rem;
+      padding: 0.85rem 1.1rem;
+      border-radius: 10px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .feedback-banner.show { display: block; }
+    .feedback-banner.ok { background: var(--success-light); color: #166534; border: 1px solid #86efac; }
+    .feedback-banner.bad { background: var(--danger-light); color: #991b1b; border: 1px solid #fca5a5; }
+    .feedback-banner.info { background: var(--primary-light); color: var(--primary); border: 1px solid #a5b4fc; }
+
+    /* Colab Box */
+    .colab-box {
+      background: #fffdf5;
+      border: 1px solid #fde68a;
+      border-radius: 14px;
+      padding: 1.2rem;
+      margin-top: 1.25rem;
+    }
+
+    .colab-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .colab-title {
+      font-weight: 700;
+      color: #92400e;
+      font-size: 1.02rem;
+    }
+
+    .colab-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-copy {
+      background: #f59e0b;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.4rem 0.9rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-copy:hover { background: #d97706; }
+    .btn-copy.copied { background: var(--success); }
+
+    .btn-colab-link {
+      text-decoration: none;
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      padding: 0.4rem 0.85rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .btn-colab-link:hover { background: #fde68a; }
+
+    .colab-code {
+      background: #1e293b;
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 0.95rem 1.1rem;
+      font-size: 0.93rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .colab-hint {
+      margin-top: 0.65rem;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+
+    /* Game */
+    .game-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .score-pills {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.94rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--teal));
+      transition: width 0.35s ease;
+    }
+
+    .game-question {
+      font-size: 1.12rem;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+      color: #0f172a;
+    }
+
+    .game-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .option-btn {
+      background: #ffffff;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--surface-soft);
+    }
+
+    .option-btn.correct {
+      border-color: var(--success);
+      background: var(--success-light);
+      color: #166534;
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger);
+      background: var(--danger-light);
+      color: #991b1b;
+    }
+
+    .option-btn:disabled { cursor: default; }
+
+    .game-summary {
+      text-align: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .game-summary .big-score {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0.5rem 0;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding: 1.5rem 1rem 2.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>ตัวชี้ตำแหน่ง รายการ ข้อความ เงื่อนไข และการวนซ้ำ</h1>
+    <p>สื่อการสอนวิทยาการคำนวณระดับชั้นมัธยมศึกษาปีที่ 1 และ 2 สำหรับคาบเรียน 2 ชั่วโมง</p>
+  </header>
+
+  <nav aria-label="เมนูหลัก">
+    <div class="nav-inner">
+      <a class="nav-btn" href="#sec-index">1. ตัวชี้ตำแหน่งบวกและลบ</a>
+      <a class="nav-btn" href="#sec-list-if">2. รายการกับเงื่อนไข</a>
+      <a class="nav-btn" href="#sec-string">3. ข้อความแก้ไม่ได้</a>
+      <a class="nav-btn" href="#sec-loop">4. วนซ้ำผ่านตัวชี้ตำแหน่ง</a>
+      <a class="nav-btn" href="#sec-game">5. เกมภารกิจตรรกะ</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Section 1 -->
+    <section id="sec-index" class="card">
+      <span class="section-tag">ชั่วโมงที่ 1 บทที่ 1</span>
+      <h2>ตัวชี้ตำแหน่ง (Index) แบบบวกและแบบลบ</h2>
+      <p>
+        ในภาษาไพทอน (Python) การเข้าถึงข้อมูลภายในรายการ (List) สามารถระบุตำแหน่งได้สองทิศทาง คือ <strong>ตัวชี้ตำแหน่งบวก</strong> ซึ่งนับจากซ้ายไปขวาโดยเริ่มที่ <code>0</code> และ <strong>ตัวชี้ตำแหน่งลบ</strong> ซึ่งนับจากขวาไปซ้ายโดยเริ่มที่ <code>-1</code> เพื่อความสะดวกในการดึงข้อมูลตัวท้ายสุดโดยไม่ต้องนับจำนวนสมาชิกทั้งหมดก่อน
+      </p>
+      <div class="info-box">
+        <strong>การอ้างอิงตำแหน่งด้วย <code>len(scores)</code></strong>
+        <br />คำสั่ง <code>len(scores)</code> ใช้หาจำนวนสมาชิกในรายการ (ในตัวอย่างนี้มี 4 ตัว) จึงสามารถเขียนอ้างอิงตำแหน่งสำคัญได้ดังนี้
+        <br />1. ตำแหน่งสุดท้าย เขียนได้ทั้ง <code>scores[-1]</code> และ <code>scores[len(scores) - 1]</code> (เท่ากับ <code>scores[3]</code>)
+        <br />2. ตำแหน่งแรก เขียนได้ทั้ง <code>scores[0]</code> และ <code>scores[-len(scores)]</code> (เท่ากับ <code>scores[-4]</code>)
+      </div>
+
+      <div class="interactive-panel">
+        <div class="panel-title">ทดลองคลิกกล่องคะแนนหรือปุ่มด้านล่างเพื่อเปรียบเทียบตำแหน่งบวก ลบ และการใช้ <code>len</code></div>
+        <div id="idx-slots" class="slots-row"></div>
+        <div class="controls-row">
+          <button class="btn btn-soft code-font" onclick="selectIdx(0, 'pos')">scores[0]</button>
+          <button class="btn btn-soft code-font" onclick="selectIdx(1, 'pos')">scores[1]</button>
+          <button class="btn btn-soft code-font" onclick="selectIdx(2, 'pos')">scores[2]</button>
+          <button class="btn btn-soft code-font" onclick="selectIdx(3, 'pos')">scores[3]</button>
+          <button class="btn btn-primary code-font" onclick="selectIdx(3, 'len-1')">scores[len(scores)-1]</button>
+        </div>
+        <div class="controls-row">
+          <button class="btn btn-soft code-font" onclick="selectIdx(3, 'neg')">scores[-1]</button>
+          <button class="btn btn-soft code-font" onclick="selectIdx(2, 'neg')">scores[-2]</button>
+          <button class="btn btn-soft code-font" onclick="selectIdx(1, 'neg')">scores[-3]</button>
+          <button class="btn btn-soft code-font" onclick="selectIdx(0, 'neg')">scores[-4]</button>
+          <button class="btn btn-teal code-font" onclick="selectIdx(0, '-len')">scores[-len(scores)]</button>
+        </div>
+        <div id="idx-console" class="code-console code-font"></div>
+      </div>
+
+      <div class="colab-box">
+        <div class="colab-header">
+          <div class="colab-title">ช่วงลองเล่น ลองดู ทดสอบตัวชี้ตำแหน่งบวก ลบ และ <code>len</code> ในกูเกิลโคแล็บ (Google Colab)</div>
+          <div class="colab-actions">
+            <a class="btn-colab-link" href="https://colab.research.google.com/" target="_blank" rel="noopener">เปิดโคแล็บ</a>
+            <button class="btn-copy" onclick="copyColabCode('colab-1', this)">คัดลอกโค้ด</button>
+          </div>
+        </div>
+        <pre id="colab-1" class="colab-code code-font">scores = [45, 78, 52, 90]
+print("ตัวแรกคือ", scores[0])
+print("ตัวสุดท้ายคือ", scores[-1])
+print("ตัวสุดท้ายด้วย len()-1 คือ", scores[len(scores) - 1])
+print("ตัวแรกด้วย -len() คือ", scores[-len(scores)])</pre>
+        <div class="colab-hint">คำแนะนำ ลองเพิ่มคะแนนอีก 1 ตัวต่อท้ายรายการ แล้วสังเกตว่า <code>scores[-1]</code> และ <code>scores[len(scores) - 1]</code> ยังคงชี้ไปยังตัวสุดท้ายได้ถูกต้อง</div>
+      </div>
+    </section>
+
+    <!-- Section 2 -->
+    <section id="sec-list-if" class="card">
+      <span class="section-tag teal">ชั่วโมงที่ 1 บทที่ 2</span>
+      <h2>การใช้รายการร่วมกับเงื่อนไข <code>if</code> และ <code>else</code></h2>
+      <p>
+        เมื่อนำตัวชี้ตำแหน่งมาใช้ร่วมกับคำสั่งเงื่อนไขจากสัปดาห์ที่ผ่านมา เราสามารถตรวจสอบข้อมูลในช่องที่ระบุแล้วตัดสินใจแก้ไขค่าได้ทันที เนื่องจากรายการเป็นข้อมูลที่อนุญาตให้แก้ไขค่าทีละตำแหน่ง
+      </p>
+
+      <div class="interactive-panel">
+        <div class="panel-title">จำลองการตรวจสอบคะแนนรายช่องด้วยเงื่อนไข <code>if</code> และ <code>else</code></div>
+        <div id="if-slots" class="slots-row"></div>
+        <div class="controls-row">
+          <label for="if-idx-select">ตำแหน่งที่ตรวจ</label>
+          <select id="if-idx-select">
+            <option value="0">ตำแหน่ง 0</option>
+            <option value="1">ตำแหน่ง 1</option>
+            <option value="2">ตำแหน่ง 2</option>
+            <option value="3">ตำแหน่ง 3</option>
+          </select>
+
+          <label for="if-thresh-select">เกณฑ์คะแนนขั้นต่ำ</label>
+          <select id="if-thresh-select">
+            <option value="50" selected>50 คะแนน</option>
+            <option value="60">60 คะแนน</option>
+            <option value="80">80 คะแนน</option>
+          </select>
+
+          <button class="btn btn-teal" onclick="runIfCheck()">ตรวจสอบและปรับคะแนน</button>
+          <button class="btn btn-soft" onclick="resetIfScores()">เริ่มใหม่</button>
+        </div>
+        <div id="if-console" class="code-console code-font"></div>
+        <div id="if-feedback" class="feedback-banner"></div>
+      </div>
+
+      <div class="colab-box">
+        <div class="colab-header">
+          <div class="colab-title">ช่วงลองเล่น ลองดู เขียนเงื่อนไขแก้ไขรายการในโคแล็บ</div>
+          <div class="colab-actions">
+            <button class="btn-copy" onclick="copyColabCode('colab-2', this)">คัดลอกโค้ด</button>
+          </div>
+        </div>
+        <pre id="colab-2" class="colab-code code-font">scores = [42, 75, 48, 88]
+pos = 0
+
+if scores[pos] &lt; 50:
+    scores[pos] = 50
+    print("ปรับคะแนนตำแหน่ง", pos, "เรียบร้อย")
+else:
+    print("ตำแหน่ง", pos, "ผ่านเกณฑ์แล้ว")
+
+print("รายการล่าสุด", scores)</pre>
+        <div class="colab-hint">คำแนะนำ ลองเปลี่ยนค่าตัวแปร <code>pos</code> เป็น 1 และ 2 แล้วรันซ้ำเพื่อดูการทำงานของเงื่อนไข</div>
+      </div>
+    </section>
+
+    <!-- Section 3 -->
+    <section id="sec-string" class="card">
+      <span class="section-tag amber">ชั่วโมงที่ 1 บทที่ 3</span>
+      <h2>ข้อความ (String) ตรวจสอบด้วยเงื่อนไขได้ แต่แก้ไขทีละตัวไม่ได้</h2>
+      <p>
+        เราสามารถใช้ตัวชี้ตำแหน่งอ่านตัวอักษรในข้อความเพื่อตรวจสอบเงื่อนไขได้ เช่น การตรวจตัวอักษรตัวแรกของรหัสสินค้า แต่ข้อความไม่สามารถแก้ไขตัวอักษรเฉพาะตำแหน่งได้ หากสั่งแก้จะเกิดข้อผิดพลาดชนิดข้อมูล (TypeError)
+      </p>
+      <div class="info-box warning">
+        <strong>แนวทางแก้ปัญหาสำหรับข้อความ</strong> หากต้องการเปลี่ยนตัวอักษรบางส่วนในข้อความ ต้องใช้วิธีสร้างข้อความใหม่ขึ้นมาแทน เช่น การนำตัวอักษรใหม่มาต่อเข้ากับส่วนที่เหลือของข้อความเดิมด้วยคำสั่ง <code>"B" + code[1:]</code> โดย <code>code[1:]</code> หมายถึงการตัดเอาข้อความตั้งแต่ตำแหน่งที่ 1 ไปจนจบ
+      </div>
+
+      <div class="interactive-panel">
+        <div class="panel-title">ทดลองตรวจรหัส <code>"A2026"</code> และเปรียบเทียบการแก้ไขแบบผิดวิธีกับวิธีสร้างข้อความใหม่</div>
+        <div id="str-slots" class="slots-row"></div>
+        <div class="controls-row">
+          <button class="btn btn-primary" onclick="checkCodeFirstChar()">ตรวจตัวแรกด้วย if</button>
+          <button class="btn btn-danger" onclick="attemptMutateString()">ลองแก้ code[0] = "B"</button>
+          <button class="btn btn-teal" onclick="buildNewString()">สร้างใหม่ด้วย "B" + code[1:]</button>
+        </div>
+        <div id="str-console" class="code-console code-font"></div>
+        <div id="str-feedback" class="feedback-banner"></div>
+      </div>
+
+      <div class="colab-box">
+        <div class="colab-header">
+          <div class="colab-title">ช่วงลองเล่น ลองดู ทดสอบข้อความและวิธีสร้างรหัสใหม่ในโคแล็บ</div>
+          <div class="colab-actions">
+            <button class="btn-copy" onclick="copyColabCode('colab-3', this)">คัดลอกโค้ด</button>
+          </div>
+        </div>
+        <pre id="colab-3" class="colab-code code-font">code = "A2026"
+if code[0] == "A":
+    print("รหัสอยู่ในกลุ่ม A")
+
+# ลองลบเครื่องหมาย # ด้านล่างออกเพื่อสังเกตข้อผิดพลาด
+# code[0] = "B"
+
+new_code = "B" + code[1:]
+print("รหัสใหม่คือ", new_code)</pre>
+        <div class="colab-hint">คำแนะนำ ทดลองรันโค้ดชุดนี้ จากนั้นลบเครื่องหมาย # หน้าบรรทัด <code>code[0] = "B"</code> เพื่อดูการแจ้งเตือนของระบบ</div>
+      </div>
+    </section>
+
+    <!-- Section 4 -->
+    <section id="sec-loop" class="card">
+      <span class="section-tag">ชั่วโมงที่ 2 บทที่ 4</span>
+      <h2>การวนซ้ำผ่านตัวชี้ตำแหน่งด้วยคำสั่ง <code>for</code> ร่วมกับ <code>range</code> และ <code>len</code></h2>
+      <p>
+        ในบทที่ 2 หากรายการมีคะแนนสอบจำนวนมาก การเขียนคำสั่ง <code>if scores[0] &lt; 50</code> ไล่ทีละบรรทัดย่อมทำได้ช้าและซ้ำซ้อน เราจึงใช้คำสั่งวนซ้ำ (Loop) เพื่อสร้างลำดับตัวชี้ตำแหน่งอัตโนมัติ
+      </p>
+      <div class="info-box">
+        <strong>หลักการทำงานของ <code>for i in range(len(scores))</code></strong>
+        <br />1. <code>len(scores)</code> ทำหน้าที่นับจำนวนสมาชิกในรายการ เช่น รายการมี 4 ตัว จะได้ค่า <code>4</code>
+        <br />2. <code>range(4)</code> ทำหน้าที่สร้างลำดับตัวเลขตัวชี้ตำแหน่งตั้งแต่ <code>0</code> <code>1</code> <code>2</code> จนถึง <code>3</code>
+        <br />3. ตัวแปร <code>i</code> จะรับตัวชี้ตำแหน่งทีละรอบ เพื่อนำไปใช้ตรวจสอบและแก้ไขค่าใน <code>scores[i]</code>
+      </div>
+
+      <div class="interactive-panel">
+        <div class="panel-title">จำลองการทำงานของคำสั่งวนซ้ำทีละรอบ</div>
+        <div id="loop-slots" class="slots-row"></div>
+        <div class="controls-row">
+          <button class="btn btn-primary" onclick="stepLoop()">รันทีละรอบ</button>
+          <button class="btn btn-teal" onclick="runAllLoop()">รันทั้งหมด</button>
+          <button class="btn btn-soft" onclick="resetLoop()">เริ่มใหม่</button>
+        </div>
+        <div id="loop-console" class="code-console code-font"></div>
+        <div id="loop-feedback" class="feedback-banner"></div>
+      </div>
+
+      <div class="colab-box">
+        <div class="colab-header">
+          <div class="colab-title">ช่วงลองเล่น ลองดู ทดลองวนซ้ำปรับคะแนนทั้งรายการในโคแล็บ</div>
+          <div class="colab-actions">
+            <button class="btn-copy" onclick="copyColabCode('colab-4', this)">คัดลอกโค้ด</button>
+          </div>
+        </div>
+        <pre id="colab-4" class="colab-code code-font">scores = [42, 75, 48, 88, 35]
+
+for i in range(len(scores)):
+    if scores[i] &lt; 50:
+        scores[i] = 50
+
+print("คะแนนหลังปรับทั้งห้อง", scores)</pre>
+        <div class="colab-hint">คำแนะนำ ลองเปลี่ยนเกณฑ์จาก 50 เป็น 60 หรือเพิ่มตัวเลขลงในรายการ <code>scores</code> แล้วสังเกตว่าโปรแกรมยังคงทำงานได้ครบทุกตัวโดยไม่ต้องแก้คำสั่งวนซ้ำ</div>
+      </div>
+    </section>
+
+    <!-- Section 5: Interactive Game -->
+    <section id="sec-game" class="card">
+      <span class="section-tag teal">กิจกรรมสรุปบทเรียน</span>
+      <h2>เกมภารกิจตรรกะตัวชี้ตำแหน่ง</h2>
+      <p>ตอบคำถามเชิงวิเคราะห์จำนวน 8 ข้อ ซึ่งรวมเนื้อหาตัวชี้ตำแหน่งบวกและลบ เงื่อนไข ข้อความ และการวนซ้ำ</p>
+
+      <div class="interactive-panel">
+        <div class="game-header">
+          <div class="score-pills">
+            <span class="pill" id="q-counter">ข้อที่ 1 จาก 8</span>
+            <span class="pill" id="score-pill">คะแนน 0</span>
+            <span class="pill" id="streak-pill">ตอบถูกต่อเนื่อง 0</span>
+          </div>
+          <button class="btn btn-soft" onclick="startGame()">เริ่มเกมใหม่</button>
+        </div>
+
+        <div class="progress-track">
+          <div class="progress-fill" id="game-progress"></div>
+        </div>
+
+        <div id="game-body"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    สื่อการสอนวิทยาการคำนวณระดับชั้นมัธยมศึกษาปีที่ 1 และ 2 เรื่องตัวชี้ตำแหน่ง รายการ ข้อความ เงื่อนไข และการวนซ้ำ
+  </footer>
+
+  <script>
+    // ---------- Section 1: Positive & Negative Index ----------
+    const baseScores = [45, 78, 52, 90];
+    let activeIdx = 0;
+    let idxMode = "pos"; // pos | neg | len-1 | -len
+
+    function renderIdxSection() {
+      const container = document.getElementById("idx-slots");
+      container.innerHTML = "";
+      const n = baseScores.length;
+      baseScores.forEach((val, idx) => {
+        const neg = idx - n;
+        const box = document.createElement("div");
+        box.className = "slot-box" + (idx === activeIdx ? " active" : "");
+        box.onclick = () => selectIdx(idx, "pos");
+        box.innerHTML = `
+          <div class="idx-pos">ตำแหน่ง ${idx}</div>
+          <div class="slot-val code-font">${val}</div>
+          <div class="idx-neg">ลบ ${neg}</div>
+        `;
+        container.appendChild(box);
+      });
+
+      let exprHtml = `<span class="num">${activeIdx}</span>`;
+      if (idxMode === "neg") {
+        exprHtml = `<span class="num">${activeIdx - n}</span>`;
+      } else if (idxMode === "len-1") {
+        exprHtml = `<span class="kw">len</span>(scores) - <span class="num">1</span> <span class="cmt"># เท่ากับ ${n - 1}</span>`;
+      } else if (idxMode === "-len") {
+        exprHtml = `-<span class="kw">len</span>(scores) <span class="cmt"># เท่ากับ -${n}</span>`;
+      }
+
+      document.getElementById("idx-console").innerHTML =
+        `<div><span class="kw">scores</span> = [<span class="num">45</span>, <span class="num">78</span>, <span class="num">52</span>, <span class="num">90</span>]</div>` +
+        `<div><span class="kw">print</span>(scores[${exprHtml}])</div>` +
+        `<div class="out">ผลลัพธ์ที่ได้คือ ${baseScores[activeIdx]}</div>`;
+    }
+
+    function selectIdx(idx, mode) {
+      activeIdx = idx;
+      idxMode = mode;
+      renderIdxSection();
+    }
+
+    // ---------- Section 2: List + if / else ----------
+    let ifScores = [42, 75, 48, 88];
+    let ifHighlightIdx = -1;
+    let ifWasUpdated = false;
+
+    function renderIfSection() {
+      const container = document.getElementById("if-slots");
+      container.innerHTML = "";
+      ifScores.forEach((val, idx) => {
+        const box = document.createElement("div");
+        let cls = "slot-box";
+        if (idx === ifHighlightIdx) {
+          cls += ifWasUpdated ? " updated" : " active";
+        }
+        box.className = cls;
+        box.innerHTML = `
+          <div class="idx-pos">ตำแหน่ง ${idx}</div>
+          <div class="slot-val code-font">${val}</div>
+          <div class="slot-code code-font">scores[${idx}]</div>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    function runIfCheck() {
+      const idx = parseInt(document.getElementById("if-idx-select").value, 10);
+      const thresh = parseInt(document.getElementById("if-thresh-select").value, 10);
+      const currentVal = ifScores[idx];
+      ifHighlightIdx = idx;
+
+      const fb = document.getElementById("if-feedback");
+      if (currentVal < thresh) {
+        ifScores[idx] = thresh;
+        ifWasUpdated = true;
+        fb.className = "feedback-banner show ok";
+        fb.textContent = `เข้าเงื่อนไข if เพราะ ${currentVal} น้อยกว่า ${thresh} จึงปรับตำแหน่ง ${idx} เป็น ${thresh}`;
+      } else {
+        ifWasUpdated = false;
+        fb.className = "feedback-banner show info";
+        fb.textContent = `เข้าเงื่อนไข else เพราะ ${currentVal} ไม่น้อยกว่า ${thresh} จึงคงค่าเดิมไว้`;
+      }
+
+      renderIfSection();
+      const listStr = ifScores.map(v => `<span class="num">${v}</span>`).join(", ");
+      document.getElementById("if-console").innerHTML =
+        `<div><span class="kw">if</span> scores[<span class="num">${idx}</span>] &lt; <span class="num">${thresh}</span>:</div>` +
+        `<div>&nbsp;&nbsp;&nbsp;&nbsp;scores[<span class="num">${idx}</span>] = <span class="num">${thresh}</span></div>` +
+        `<div><span class="kw">print</span>(scores)</div>` +
+        `<div class="out">ผลลัพธ์ [${listStr}]</div>`;
+    }
+
+    function resetIfScores() {
+      ifScores = [42, 75, 48, 88];
+      ifHighlightIdx = -1;
+      ifWasUpdated = false;
+      renderIfSection();
+      document.getElementById("if-console").innerHTML =
+        `<div><span class="kw">scores</span> = [<span class="num">42</span>, <span class="num">75</span>, <span class="num">48</span>, <span class="num">88</span>]</div>`;
+      const fb = document.getElementById("if-feedback");
+      fb.className = "feedback-banner";
+    }
+
+    // ---------- Section 3: String + if + Immutability ----------
+    const codeWord = "A2026";
+    let strMode = "read"; // read | error | new
+    let strActiveIdx = 0;
+
+    function renderStrSection() {
+      const container = document.getElementById("str-slots");
+      container.innerHTML = "";
+      const chars = codeWord.split("");
+      chars.forEach((ch, idx) => {
+        const box = document.createElement("div");
+        let cls = "slot-box char-box";
+        if (strMode === "error" && idx === 0) cls += " shake";
+        else if (strMode === "read" && idx === strActiveIdx) cls += " active";
+        box.className = cls;
+        box.onclick = () => {
+          strMode = "read";
+          strActiveIdx = idx;
+          renderStrSection();
+          document.getElementById("str-console").innerHTML =
+            `<div><span class="kw">code</span> = <span class="str">"A2026"</span></div>` +
+            `<div><span class="kw">print</span>(code[<span class="num">${idx}</span>])</div>` +
+            `<div class="out">ผลลัพธ์ที่ได้คือ '${ch}'</div>`;
+          const fb = document.getElementById("str-feedback");
+          fb.className = "feedback-banner show info";
+          fb.textContent = `อ่านตัวอักษรตำแหน่ง ${idx} ได้ค่า '${ch}'`;
+        };
+        box.innerHTML = `
+          <div class="idx-pos">${idx}</div>
+          <div class="slot-val code-font">'${ch}'</div>
+          <div class="idx-neg">${idx - chars.length}</div>
+        `;
+        container.appendChild(box);
+      });
+    }
+
+    function checkCodeFirstChar() {
+      strMode = "read";
+      strActiveIdx = 0;
+      renderStrSection();
+      document.getElementById("str-console").innerHTML =
+        `<div><span class="kw">if</span> code[<span class="num">0</span>] == <span class="str">"A"</span>:</div>` +
+        `<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">print</span>(<span class="str">"รหัสอยู่ในกลุ่ม A"</span>)</div>` +
+        `<div class="out">รหัสอยู่ในกลุ่ม A</div>`;
+      const fb = document.getElementById("str-feedback");
+      fb.className = "feedback-banner show ok";
+      fb.textContent = `เงื่อนไขเป็นจริง เพราะ code[0] คือ 'A'`;
+    }
+
+    function attemptMutateString() {
+      strMode = "error";
+      renderStrSection();
+      document.getElementById("str-console").innerHTML =
+        `<div><span class="kw">code</span>[<span class="num">0</span>] = <span class="str">"B"</span></div>` +
+        `<div class="err">TypeError 'str' object does not support item assignment</div>`;
+      const fb = document.getElementById("str-feedback");
+      fb.className = "feedback-banner show bad";
+      fb.textContent = `แก้ไขไม่ได้ ข้อความไม่อนุญาตให้เปลี่ยนตัวอักษรทีละตำแหน่ง`;
+    }
+
+    function buildNewString() {
+      strMode = "read";
+      strActiveIdx = 0;
+      renderStrSection();
+      document.getElementById("str-console").innerHTML =
+        `<div><span class="kw">new_code</span> = <span class="str">"B"</span> + code[<span class="num">1</span>:]</div>` +
+        `<div><span class="kw">print</span>(new_code)</div>` +
+        `<div class="out">ผลลัพธ์ที่ได้คือ "B2026"</div>`;
+      const fb = document.getElementById("str-feedback");
+      fb.className = "feedback-banner show ok";
+      fb.textContent = `สร้างข้อความใหม่สำเร็จโดยนำ "B" มาต่อกับ "2026"`;
+    }
+
+    // ---------- Section 4: Loop Stepper ----------
+    let loopScores = [42, 75, 48, 88];
+    let loopPtr = 0;
+    let loopLogs = [];
+
+    function renderLoopSection(updatedNow) {
+      const container = document.getElementById("loop-slots");
+      container.innerHTML = "";
+      loopScores.forEach((val, idx) => {
+        const box = document.createElement("div");
+        let cls = "slot-box";
+        if (idx === loopPtr - 1 && updatedNow) cls += " updated";
+        else if (idx === loopPtr) cls += " active";
+        box.className = cls;
+        box.innerHTML = `
+          <div class="idx-pos">ตำแหน่ง ${idx}</div>
+          <div class="slot-val code-font">${val}</div>
+          <div class="slot-code code-font">scores[${idx}]</div>
+        `;
+        container.appendChild(box);
+      });
+
+      const listStr = loopScores.map(v => `<span class="num">${v}</span>`).join(", ");
+      const logHtml = loopLogs.length
+        ? loopLogs.map(line => `<div class="out">${line}</div>`).join("")
+        : `<div class="cmt">กดปุ่ม รันทีละรอบ เพื่อดูการทำงานตั้งแต่ i = 0</div>`;
+      document.getElementById("loop-console").innerHTML =
+        `<div><span class="kw">for</span> i <span class="kw">in</span> <span class="kw">range</span>(<span class="kw">len</span>(scores)): <span class="cmt"># len(scores) = 4</span></div>` +
+        logHtml +
+        `<div><span class="kw">scores</span> ปัจจุบัน [${listStr}]</div>`;
+    }
+
+    function stepLoop() {
+      const fb = document.getElementById("loop-feedback");
+      if (loopPtr >= loopScores.length) {
+        fb.className = "feedback-banner show ok";
+        fb.textContent = "วนซ้ำครบทั้ง 4 รอบเรียบร้อยแล้ว กดเริ่มใหม่หากต้องการทดลองอีกครั้ง";
+        return;
+      }
+
+      const i = loopPtr;
+      const oldVal = loopScores[i];
+      let updatedNow = false;
+      if (oldVal < 50) {
+        loopScores[i] = 50;
+        updatedNow = true;
+        loopLogs.push(`รอบ i=${i} ค่า ${oldVal} &lt; 50 จริง จึงแก้เป็น 50`);
+        fb.className = "feedback-banner show ok";
+        fb.textContent = `รอบ i = ${i} พบค่า ${oldVal} น้อยกว่า 50 จึงปรับเป็น 50`;
+      } else {
+        loopLogs.push(`รอบ i=${i} ค่า ${oldVal} &lt; 50 เท็จ จึงคงเดิม`);
+        fb.className = "feedback-banner show info";
+        fb.textContent = `รอบ i = ${i} พบค่า ${oldVal} ผ่านเกณฑ์แล้วจึงคงค่าเดิม`;
+      }
+
+      loopPtr += 1;
+      renderLoopSection(updatedNow);
+    }
+
+    function runAllLoop() {
+      while (loopPtr < loopScores.length) {
+        stepLoop();
+      }
+    }
+
+    function resetLoop() {
+      loopScores = [42, 75, 48, 88];
+      loopPtr = 0;
+      loopLogs = [];
+      renderLoopSection(false);
+      document.getElementById("loop-feedback").className = "feedback-banner";
+    }
+
+    // ---------- Section 5: Interactive Game ----------
+    const questions = [
+      {
+        prompt: "กำหนดให้ data = [15, 30, 45, 60] คำสั่ง data[-1] + data[0] จะได้ผลลัพธ์ใด",
+        code: "data = [15, 30, 45, 60]\nprint(data[-1] + data[0])",
+        options: ["45", "75", "90", "60"],
+        answer: 1,
+        explain: "data[-1] คือตัวสุดท้าย (60) และ data[0] คือตัวแรก (15) นำมาบวกกันได้ 75"
+      },
+      {
+        prompt: "กำหนดให้ tag = \"THAI2026\" คำสั่ง tag[-2] จะได้ตัวอักษรใด",
+        code: "tag = \"THAI2026\"\nprint(tag[-2])",
+        options: ["'0'", "'2'", "'6'", "'I'"],
+        answer: 1,
+        explain: "นับจากขวา -1 คือ '6' และ -2 คือ '2'"
+      },
+      {
+        prompt: "เมื่อรันโค้ดต่อไปนี้ ค่าในตัวแปร nums จะเป็นอย่างไร",
+        code: "nums = [10, 55, 20]\ni = 2\nif nums[i] < 30:\n    nums[i] = 30\nprint(nums)",
+        options: [
+          "[30, 55, 20]",
+          "[10, 55, 30]",
+          "[10, 30, 20]",
+          "[30, 55, 30]"
+        ],
+        answer: 1,
+        explain: "ตัวแปร i มีค่า 2 ดังนั้น nums[2] คือ 20 ซึ่งน้อยกว่า 30 จึงถูกแก้เป็น 30"
+      },
+      {
+        prompt: "โค้ดชุดใดทำงานได้โดยไม่เกิดข้อผิดพลาด",
+        code: "word = \"CODE\"\nitems = [\"C\", \"O\", \"D\", \"E\"]",
+        options: [
+          "word[0] = \"M\"",
+          "if word[0] == \"C\": word[0] = \"M\"",
+          "if items[0] == \"C\": items[0] = \"M\"",
+          "word[-1] = \"S\""
+        ],
+        answer: 2,
+        explain: "items เป็นรายการจึงแก้ไขค่าในตำแหน่ง 0 ได้ ส่วน word เป็นข้อความแก้ไขทีละตัวไม่ได้"
+      },
+      {
+        prompt: "กำหนดให้ code = \"P123\" หากต้องการสร้างข้อความใหม่เป็น \"S123\" ต้องใช้คำสั่งใด",
+        code: "code = \"P123\"",
+        options: [
+          "code[0] = \"S\"",
+          "new_code = \"S\" + code[1:]",
+          "new_code = \"S\" + code[0]",
+          "new_code = code[1:] + \"S\""
+        ],
+        answer: 1,
+        explain: "code[1:] คือ \"123\" เมื่อนำ \"S\" มาต่อด้านหน้าจะได้ \"S123\""
+      },
+      {
+        prompt: "กำหนดให้ vals = [5, 12, 8, 20] ค่าของ len(vals) คือข้อใด และ range(len(vals)) สร้างเลขใดบ้าง",
+        code: "vals = [5, 12, 8, 20]\nfor i in range(len(vals)):",
+        options: [
+          "len = 4 สร้างเลข 1, 2, 3, 4",
+          "len = 4 สร้างเลข 0, 1, 2, 3",
+          "len = 3 สร้างเลข 0, 1, 2",
+          "len = 4 สร้างเลข 0, 1, 2, 3, 4"
+        ],
+        answer: 1,
+        explain: "len(vals) เท่ากับ 4 และ range(4) สร้างลำดับตัวชี้ตำแหน่งตั้งแต่ 0 ถึง 3"
+      },
+      {
+        prompt: "ผลลัพธ์สุดท้ายของรายการ arr หลังจบคำสั่งวนซ้ำคือข้อใด",
+        code: "arr = [2, 9, 4, 7]\nfor i in range(len(arr)):\n    if arr[i] < 5:\n        arr[i] = arr[i] * 2\nprint(arr)",
+        options: [
+          "[4, 9, 8, 7]",
+          "[4, 18, 8, 14]",
+          "[2, 9, 4, 7]",
+          "[4, 9, 4, 7]"
+        ],
+        answer: 0,
+        explain: "ค่าที่น้อยกว่า 5 มีเพียง 2 (ตำแหน่ง 0) และ 4 (ตำแหน่ง 2) จึงถูกคูณด้วย 2 กลายเป็น 4 และ 8"
+      },
+      {
+        prompt: "ผลลัพธ์ที่พิมพ์ออกทางหน้าจอจากโค้ดนี้คือค่าใด",
+        code: "text = \"APPLE\"\ncount = 0\nfor i in range(len(text)):\n    if text[i] == \"P\":\n        count = count + 1\nprint(count)",
+        options: ["1", "2", "3", "5"],
+        answer: 1,
+        explain: "การวนซ้ำตรวจสอบตัวอักษร 'P' ในคำว่า \"APPLE\" พบทั้งหมด 2 ตำแหน่ง คือตำแหน่ง 1 และ 2"
+      }
+    ];
+
+    let qIndex = 0;
+    let score = 0;
+    let streak = 0;
+    let answered = false;
+
+    function startGame() {
+      qIndex = 0;
+      score = 0;
+      streak = 0;
+      answered = false;
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      document.getElementById("q-counter").textContent = `ข้อที่ ${Math.min(qIndex + 1, questions.length)} จาก ${questions.length}`;
+      document.getElementById("score-pill").textContent = `คะแนน ${score}`;
+      document.getElementById("streak-pill").textContent = `ตอบถูกต่อเนื่อง ${streak}`;
+      document.getElementById("game-progress").style.width = `${(qIndex / questions.length) * 100}%`;
+
+      const body = document.getElementById("game-body");
+      if (qIndex >= questions.length) {
+        document.getElementById("q-counter").textContent = "จบเกมแล้ว";
+        document.getElementById("game-progress").style.width = "100%";
+        let msg = "แนะนำให้ทบทวนตัวอย่างในบทที่ 2 และ 4 แล้วลองเล่นอีกครั้ง";
+        if (score === questions.length) msg = "ยอดเยี่ยม ตอบถูกครบทุกข้อ";
+        else if (score >= 6) msg = "ทำได้ดีมาก เข้าใจการทำงานของตัวชี้ตำแหน่ง เงื่อนไข และการวนซ้ำอย่างชัดเจน";
+        body.innerHTML = `
+          <div class="game-summary">
+            <h3>สรุปผลคะแนน</h3>
+            <div class="big-score">${score} / ${questions.length}</div>
+            <p>${msg}</p>
+            <div class="controls-row">
+              <button class="btn btn-primary" onclick="startGame()">เล่นอีกครั้ง</button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const q = questions[qIndex];
+      const optionsHtml = q.options.map((opt, idx) =>
+        `<button class="option-btn code-font" id="opt-${idx}" onclick="checkAnswer(${idx})">${opt}</button>`
+      ).join("");
+
+      body.innerHTML = `
+        <div class="game-question">${q.prompt}</div>
+        <pre class="code-console code-font" style="margin-top:0;">${q.code}</pre>
+        <div class="game-options">${optionsHtml}</div>
+        <div id="game-feedback" class="feedback-banner"></div>
+        <div class="controls-row" id="next-btn-wrap" style="display:none;">
+          <button class="btn btn-primary" onclick="nextQuestion()">ข้อถัดไป</button>
+        </div>
+      `;
+    }
+
+    function checkAnswer(chosen) {
+      if (answered) return;
+      answered = true;
+      const q = questions[qIndex];
+      const fb = document.getElementById("game-feedback");
+
+      q.options.forEach((_, idx) => {
+        const btn = document.getElementById(`opt-${idx}`);
+        btn.disabled = true;
+        if (idx === q.answer) btn.classList.add("correct");
+        else if (idx === chosen) btn.classList.add("wrong");
+      });
+
+      if (chosen === q.answer) {
+        score += 1;
+        streak += 1;
+        fb.className = "feedback-banner show ok";
+        fb.textContent = `ถูกต้อง ${q.explain}`;
+      } else {
+        streak = 0;
+        fb.className = "feedback-banner show bad";
+        fb.textContent = `ยังไม่ถูกต้อง ${q.explain}`;
+      }
+
+      document.getElementById("score-pill").textContent = `คะแนน ${score}`;
+      document.getElementById("streak-pill").textContent = `ตอบถูกต่อเนื่อง ${streak}`;
+      document.getElementById("next-btn-wrap").style.display = "flex";
+    }
+
+    function nextQuestion() {
+      qIndex += 1;
+      answered = false;
+      renderQuestion();
+    }
+
+    // ---------- Copy Code Helper ----------
+    function copyColabCode(elementId, btn) {
+      const codeText = document.getElementById(elementId).textContent;
+      const onSuccess = () => {
+        const original = btn.textContent;
+        btn.textContent = "คัดลอกแล้ว ✓";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove("copied");
+        }, 1800);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(codeText).then(onSuccess).catch(() => fallbackCopy(codeText, onSuccess));
+      } else {
+        fallbackCopy(codeText, onSuccess);
+      }
+    }
+
+    function fallbackCopy(text, onSuccess) {
+      const area = document.createElement("textarea");
+      area.value = text;
+      area.style.position = "fixed";
+      area.style.opacity = "0";
+      document.body.appendChild(area);
+      area.select();
+      try {
+        document.execCommand("copy");
+        onSuccess();
+      } finally {
+        document.body.removeChild(area);
+      }
+    }
+
+    // Initialize
+    renderIdxSection();
+    resetIfScores();
+    renderStrSection();
+    resetLoop();
+    startGame();
+  </script>
+</body>
+</html>
